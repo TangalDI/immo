@@ -16,8 +16,8 @@ class m191024_230055_immo extends Migration
             'id' => $this->primaryKey()->notNull(),
             'name' => $this->string(200)->notNull(),
             'rate' => $this->float()->notNull(),
-            'insert_dt' => $this->dateTime()->notNull(),
-        ], 'COMMENT="Currency"');
+            'insert_dt' => $this->timestamp()->defaultValue(null)->append('ON UPDATE CURRENT_TIMESTAMP'),
+        ], 'CHARACTER SET utf8');
 
     }
 

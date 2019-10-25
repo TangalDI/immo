@@ -14,6 +14,7 @@ use Yii;
  */
 class Currency extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
@@ -28,9 +29,9 @@ class Currency extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'rate', 'insert_dt'], 'required'],
-            [['rate'], 'number'],
-            [['insert_dt'], 'safe'],
+            [['name', 'rate'], 'required'],
+            //[['rate'], 'number'],
+            //[['insert_dt'], 'safe'],
             [['name'], 'string', 'max' => 200],
         ];
     }

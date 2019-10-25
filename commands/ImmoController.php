@@ -26,12 +26,12 @@ class ImmoController extends Controller
         	return ExitCode::OK;
 	}
 	foreach( $data['Valute'] as $v ) {
-		echo $v['Name']."\n";
+		echo $v['Name']." ".$v['Value']."\n";
 		if ($dry_run) continue;
 		$c = Currency::find()->where(['name'=>$v['Name']])->one();
 		if ( !count($c) ) $c = new Currency();
 		$c->name = $v['Name'];
-		$c->rate = $v['Value'];
+		$c->rate = str_replace(',','.',$v['Value']);
 		$c->save();
 	}
 

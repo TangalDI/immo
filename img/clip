@@ -1,0 +1,35 @@
+from django.contrib.auth.models import Group
+
+class AuthFailed(Exception):
+    pass
+
+def set_role(response, user, backend, *args, **kwargs):
+    '''
+    Get roles from JWT
+    Assign user to netbox group matching role
+    Also set is_superuser or is_staff for special roles 'superusers' and 'staff'
+    '''
+    try:
+        roles = response['roles']
+    except KeyError:
+        user.groups.clear()
+        raise AuthFailed("No role assigned")
+
+    try:
+        user.is_superuser = False
+        user.is_staff = False
+
+        for role in roles:
+            if role == 'superusers':
+                user.is_superuser = True
+                user.save()
+                continue
+            if role == "staff":
+                user.is_staff = True
+                user.save()
+                continue
+
+            group, created = Group.objects.get_or_create(name=role)
+            group.user_set.add(user)
+    except Group.DoesNotExist:
+        pass

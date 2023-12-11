@@ -1,1 +1,1 @@
-prc 2312110021001331 UPLOAD M-FILE WILDBERRIES from container EOD: OPENWAY M-FILE GENERATION started 2023-12-11 01:36:06 err PRSR0003
+reg export HKCU\Software\SimonTatham\PuTTY\Sessions ([Environment]::GetFolderPath("Desktop") + "\putty-sessions.reg")

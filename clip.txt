@@ -1,1 +1,1 @@
-reg export HKCU\Software\SimonTatham\PuTTY\Sessions ([Environment]::GetFolderPath("Desktop") + "\putty-sessions.reg")
+prc 2312150021056568 CORE OPERARTION PROCESSING from container SVNG POSTING PROCESSING started 2023-12-15 11:23:04 err PRSR0003

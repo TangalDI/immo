@@ -1,6 +1,29 @@
-https://t.me/+DNm7UPr_Vf9mNTMy
-https://t.me/+iNrYlO1iqRRmNTdi
-https://t.me/+nqVY2fmrhXg3MzBi
-https://t.me/+qsZqGWccPfxlZDdi
-https://t.me/+qFHjPC5ksoQ1MTE6
+import jwt
+from social_core.exceptions import AuthTokenError
 
+def validate_token_with_leeway(backend, uid, response, details, *args, **kwargs):
+    # Получаем сырой id_token, если он есть
+    token = response.get('id_token')
+    if not token:
+        return {}
+
+    # Публичный ключ и аудитория должны быть доступны из бэкенда
+    # Это упрощённый пример: в реальности ключи и audience берутся из конфигурации
+    public_key = backend.get_public_key()
+    audience = backend.setting('KEY')  # или как у вас настроено
+
+    try:
+        # leeway=30 даёт допуск 30 секунд на iat и exp
+        payload = jwt.decode(
+            token,
+            public_key,
+            algorithms=["RS256"],
+            audience=audience,
+            leeway=30,
+            options={"verify_signature": True}
+        )
+        # Если успешно — можно сохранить payload или ничего не делать
+        return {'extra_data': {'jwt_payload': payload}}
+    except Exception as e:
+        # Не глушите ошибку полностью: если токен совсем плохой — лучше не пускать
+        raise AuthTokenError(backend, str(e))
